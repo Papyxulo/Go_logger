@@ -1,7 +1,9 @@
 package Go_logger
 
 import (
+	"fmt"
 	"os"
+	"runtime"
 	"time"
 
 	"github.com/fatih/color"
@@ -19,11 +21,13 @@ func (logger Logger) Fatal(text string, code int) {
 	if !logger.check_verbosity_level(1) {
 		return
 	}
-	var fatal = color.New(color.FgRed)
-	fatal = fatal.Add(color.Bold)
 
+	color.Set(color.FgRed, color.Bold)
 	var formated_time = string(time.Now().Format("2006-01-02 15:04:05"))
-	fatal.Println(formated_time + " - " + text + " - Run the script on verbose level 3 to get debug info")
+	fmt.Printf("%v - %v - Run the script on verbose level 3 to get debug info \n",
+		formated_time, text)
+	color.Unset()
+
 	os.Exit(code)
 }
 
@@ -31,72 +35,96 @@ func (logger Logger) Info(text string) {
 	if !logger.check_verbosity_level(1) {
 		return
 	}
-	info := color.New(color.FgBlue)
 
+	color.Set(color.FgBlue)
 	var formated_time = string(time.Now().Format("2006-01-02 15:04:05"))
-	info.Println(formated_time + " - " + text)
+	fmt.Printf("%v - %v\n", formated_time, text)
+	color.Unset()
 }
 
 func (logger Logger) Sucess(text string) {
 	if !logger.check_verbosity_level(1) {
 		return
 	}
-	Sucess := color.New(color.FgGreen)
 
+	color.Set(color.FgGreen)
 	var formated_time = string(time.Now().Format("2006-01-02 15:04:05"))
-	Sucess.Println(formated_time + " - " + text)
+	fmt.Printf("%v - %v\n", formated_time, text)
+	color.Unset()
 }
 
 func (logger Logger) Failed(text string) {
 	if !logger.check_verbosity_level(1) {
 		return
 	}
-	var failed = color.New(color.FgRed)
-	failed = failed.Add(color.Bold)
 
+	color.Set(color.FgRed, color.Bold)
 	var formated_time = string(time.Now().Format("2006-01-02 15:04:05"))
-	failed.Println(formated_time + " - " + text)
+	fmt.Printf("%v - %v\n", formated_time, text)
+	color.Unset()
 }
 
 func (logger Logger) Error(text string) {
 	if !logger.check_verbosity_level(1) {
 		return
 	}
-	var failed = color.New(color.FgRed)
-	failed = failed.Add(color.Bold)
 
+	pc, _, _, _ := runtime.Caller(1)
+	function_name := string(runtime.FuncForPC(pc).Name())
+
+	color.Set(color.FgRed, color.Bold)
 	var formated_time = string(time.Now().Format("2006-01-02 15:04:05"))
-	failed.Println(formated_time + " - ERROR: " + text)
+	fmt.Printf("%v - %v ERROR: %v\n", formated_time, function_name, text)
+	color.Unset()
 }
 
-func (logger Logger) Trace(text string) {
+func (logger Logger) Trace(text string, objs ...interface{}) {
 	if !logger.check_verbosity_level(2) {
 		return
 	}
-	var failed = color.New(color.FgRed)
-	failed = failed.Add(color.Bold)
 
+	pc, _, _, _ := runtime.Caller(1)
+	function_name := string(runtime.FuncForPC(pc).Name())
+
+	color.Set(color.FgYellow, color.Bold)
 	var formated_time = string(time.Now().Format("2006-01-02 15:04:05"))
-	failed.Println(formated_time + " - " + text)
+	fmt.Printf("%v - %v - %v\n", formated_time, function_name, text)
+
+	// if there are object to print
+	for _, obj := range objs {
+		fmt.Printf("\t %v\n", obj)
+	}
+
+	color.Unset()
 }
 
 func (logger Logger) Warning(text string) {
 	if !logger.check_verbosity_level(2) {
 		return
 	}
-	var warning = color.New(color.FgYellow)
-	warning = warning.Add(color.Bold)
 
+	color.Set(color.FgYellow, color.Bold)
 	var formated_time = string(time.Now().Format("2006-01-02 15:04:05"))
-	warning.Println(formated_time + " - " + text)
+	fmt.Printf("%v - %v\n", formated_time, text)
+	color.Unset()
 }
 
-func (logger Logger) Debug(text string) {
+func (logger Logger) Debug(text string, objs ...interface{}) {
 	if !logger.check_verbosity_level(3) {
 		return
 	}
-	Debug := color.New(color.FgMagenta)
 
+	pc, _, _, _ := runtime.Caller(1)
+	function_name := string(runtime.FuncForPC(pc).Name())
+
+	color.Set(color.FgMagenta)
 	var formated_time = string(time.Now().Format("2006-01-02 15:04:05"))
-	Debug.Println(formated_time + " - " + text)
+	fmt.Printf("%v - %v - %v\n", formated_time, function_name, text)
+
+	// if there are object to print
+	for _, obj := range objs {
+		fmt.Printf("\t %v\n", obj)
+	}
+
+	color.Unset()
 }
