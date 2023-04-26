@@ -74,6 +74,7 @@ func (logger Logger) Error(text string) {
 	color.Set(color.FgRed, color.Bold)
 	var formated_time = string(time.Now().Format("2006-01-02 15:04:05"))
 	fmt.Printf("%v - %v ERROR: %v\n", formated_time, function_name, text)
+
 	color.Unset()
 }
 
