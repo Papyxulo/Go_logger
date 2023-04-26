@@ -27,7 +27,6 @@ func (logger Logger) Fatal(text string, code int) {
 	fmt.Printf("%v - %v - Run the script on verbose level 3 to get debug info \n",
 		formated_time, text)
 	color.Unset()
-
 	os.Exit(code)
 }
 
