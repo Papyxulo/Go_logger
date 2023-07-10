@@ -175,9 +175,9 @@ func (logger Logger) PanicHandler() {
 		file := filepath.Dir(ex) + "/panic.txt"
 		data :=
 			fmt.Sprintf("--------------------------\npanic caused by error : %v\nLogs : \n\t%v\n"+
-				"Stack : \n%v\n-----------------------", r, logs, stack)
+				"Stack : \n%v\n-----------------------\n", r, logs, stack)
 
-		f, err := os.OpenFile(file, os.O_APPEND|os.O_CREATE, 0666)
+		f, err := os.OpenFile(file, os.O_CREATE|os.O_WRONLY|os.O_APPEND, 0666)
 		if err != nil {
 			fmt.Printf("Error opening panic file for writing : %v", err.Error())
 		}
@@ -185,7 +185,7 @@ func (logger Logger) PanicHandler() {
 
 		_, err2 := f.WriteString(data)
 		if err2 != nil {
-			fmt.Printf("Error writing data to panic file : %v", err.Error())
+			fmt.Printf("Error writing data to panic file : %v", err2.Error())
 		}
 
 	}

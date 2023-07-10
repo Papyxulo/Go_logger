@@ -2,6 +2,14 @@
 
 Logger function for golang
 
+## Install 
+
+``` Golang
+go get github.com/Papyxulo/Go_logger@Vx.x.x
+ex: 
+go get github.com/Papyxulo/Go_logger@V1.2.1 
+```
+
 ## Usage
 
 ### Normal Usage
@@ -46,6 +54,14 @@ log.Debug("some debug info here") // Text only
 ```
 
 ---
+
+## V1.2.1
+
+- Fixed bug preventing PanicHandler from adding data to the panic.txt file in linux systems
+- Fixed bug that made code print the wrong error on PanicHandler file creation
+- Added Line break to the panic.txt file at the end of each message
+- Updated documentation
+
 
 ## V1.2.0
 
